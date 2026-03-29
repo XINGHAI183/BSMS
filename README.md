@@ -46,74 +46,64 @@ open beijing-subway-map-super.html
 
 ## 使用示例
 
-在页面中引入（示例）：
+本项目页面为单文件集成，推荐直接以浏览器打开 `beijing-subway-map-super.html` 查看效果。如需嵌入到其他页面，可以采用 iframe 的方式：
+
 ```html
-<link rel="stylesheet" href="dist/styles.css">
-<script src="dist/bundle.js"></script>
-
-<div id="map" style="width:100%;height:600px;"></div>
-
-<script>
-  // 全局或模块化 API 示例
-  const map = new SubwayMap('#map', {
-    theme: 'light',
-    center: [116.4074, 39.9042], // 北京经纬度
-    zoom: 12,
-    dataUrl: '/data/beijing-subway.json'
-  });
-
-  map.on('stationClick', (station) => {
-    console.log('点击站点：', station);
-  });
-
-  // 高亮一条路线
-  map.highlightRoute(['四惠', '国贸', '呼家楼', '东单']);
-</script>
+<iframe src="beijing-subway-map-super.html" width="100%" height="700"></iframe>
 ```
 
-导出视图为图片（示例）：
-```js
-map.exportPNG().then(blob => {
-  // 下载或上传 blob
-});
-```
+主要功能包括地图交互、站点信息弹窗、站点搜索、路径规划等，均已集成在页面中。无需额外 JS/模块初始化步骤。
 
 ## 数据格式说明
-项目支持多种数据格式。下面为推荐的简化 JSON 格式示例：
 
-```json
-{
-  "lines": [
-    {
-      "id": "1",
-      "name": "1号线",
-      "color": "#C03A2E",
-      "stations": ["古城", "八宝山", "玉泉路", "..."],
-      "path": [[116.1902475357,39.9072014648],[116.2358236313,39.9072673042], "..."]
-    }
-  ],
-  "stations": [
-    {
-      "id": "st-101",
-      "name": "古城",
-      "lng": 116.1902475357,
-      "lat": 39.9072014648,
-      "lines": ["1"]
-    }
-  ]
-}
+所有线路及站点数据在 HTML 文件中以 JavaScript 变量直接维护，无需请求外部 JSON 文件。核心数据结构如下：
+
+### 站点数据（`allStations`）
+
+```js
+const allStations = {
+  "古城": { lat: 39.9072, lng: 116.1902 },
+  // ... 其它站点
+};
 ```
 
-也支持 GeoJSON 结构，或从第三方数据源转换后加载。
+### 线路与走向（`lineConnections`）
+
+```js
+const lineConnections = {
+  "1号线": ["古城","八宝山","玉泉路", ...],
+  "2号线": [...],
+  // 更多线路
+};
+```
+
+- 每条线路的数组成员为经停站点名称，顺序代表线路走向。
 
 ## 自定义与扩展
-- 主题：可以通过配置 theme、CSS 变量或 SCSS 变量改变配色与字体。
-- 覆盖物：提供 addMarker、addLayer 接口，支持自定义 DOM/Canvas 渲染。
-- 插件机制：可以注册插件（例如实时客流、事件标注），示例：
-```js
-map.use(MyHeatmapPlugin, { intensityField: 'count' });
-```
-- 国际化：支持将 UI 文案抽离为语言包，便于切换中/英文。
+
+1. **自定义线路颜色：**
+   编辑 `lineColors` 对象即可调整线路显示色。
+
+   ```js
+   const lineColors = {
+     "1号线": "#C03A2E",
+     "2号线": "#005F98",
+     // ... 其它线路颜色
+   };
+   ```
+
+2. **增删线路或站点：**
+   直接补充/修改 `allStations` 和 `lineConnections` 变量内容。
+
+3. **交互与功能扩展：**
+   如需增加弹窗内容、修改路径规划规则、样式主题等，可在 HTML 文件对应 JavaScript 部分进行编辑。功能与 UI 全部内嵌于 `beijing-subway-map-super.html`，适合本地或静态服务环境。
+
+4. **更高级集成：**
+   如需对接外部数据或实现动态加载，可参考源码结构，在`beijing-subway-map-super.html`基础上扩展相应逻辑。
+
+---
+
+如需进一步自定义开发建议请直接阅读源码或 Discussion 讨论。
 
 ## 贡献指南
 欢迎贡献！建议流程：
