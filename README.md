@@ -68,7 +68,7 @@ open beijing-subway-map-super.html
 
 ```js
 const allStations = {
-  "古城": { lat: 39.9072, lng: 116.1902 },
+  "苹果园": { lat: 39.9263251384, lng: 116.1777806282 },
   // ... 其它站点
 };
 ```
@@ -77,7 +77,7 @@ const allStations = {
 
 ```js
 const lineConnections = {
-  "1号线": ["古城","八宝山","玉泉路", ...],
+  "1号线": ["苹果园","古城","八宝山", ...],
   "2号线": [...],
   // 更多线路
 };
