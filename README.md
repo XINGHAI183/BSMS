@@ -38,7 +38,7 @@ GitHub Pages：https://xinghai183.github.io/BSMS/
 
 克隆仓库：
 ```bash
-git clone https://github.com/XINGHAI183/BSMS
+git clone https://github.com/XINGHAI183/BSMS.git
 cd beijing-subway-map-super
 ```
 
@@ -68,7 +68,7 @@ open beijing-subway-map-super.html
 
 ```js
 const allStations = {
-  "苹果园": { lat: 39.9263251384, lng: 116.1777806282 },
+  "苹果园": { lat: 39.926449, lng: 116.177805 },
   // ... 其它站点
 };
 ```
